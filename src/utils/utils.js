@@ -8,6 +8,12 @@ const isEmailTaken = async (email) => {
   return result.length > 0
 }
 
+const isEmailValid = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  return emailRegex.test(email)
+}
+
 const middlewareError = (err, req, res, next) => {
   if(err instanceof ClientError){
     return res.status(err.status).json({
@@ -30,6 +36,7 @@ const hashPassword = async (password) => {
 
 module.exports = {
   isEmailTaken,
+  isEmailValid,
   middlewareError,
   hashPassword
 }

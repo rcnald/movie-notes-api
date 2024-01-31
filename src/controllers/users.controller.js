@@ -1,11 +1,16 @@
 const ClientError = require("../utils/ClientError")
 const knex = require("../database/knex")
-const { isEmailTaken, hashPassword } = require("../utils/utils")
+const { isEmailTaken, isEmailValid, hashPassword } = require("../utils/utils")
 
 class UsersController{
   async create(req, res){
     const { name, email, password } = req.body
     const emailExists = await isEmailTaken(email)
+    const emailValid = isEmailValid(email)
+
+    if(!emailValid){
+      throw new ClientError("Email não esta em um formato valido!")
+    }
 
     if(emailExists){
       throw new ClientError("Email já esta em uso!")
