@@ -2,16 +2,31 @@ const knex = require("../database/knex")
 const ClientError = require("./ClientError")
 const bcrypt = require('bcrypt');
 
-const isEmailTaken = async (email) => {
-  const result = await knex('users').select().where({email})
+const isEmailTaken = async (email, user_id) => {
+  const result = await knex('users').select('id').where({email})
+  const isUserEmail =  result[0]?.id === user_id
 
-  return result.length > 0
+  return !isUserEmail
 }
 
 const isEmailValid = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   return emailRegex.test(email)
+}
+
+const checkEmail = async (email, user_id) => {
+  const emailValid = isEmailValid(email)
+    
+  if(!emailValid){
+    throw new ClientError("Email não esta em um formato valido!")
+  }
+  
+  const emailExists = await isEmailTaken(email, Number(user_id))
+  
+  if(emailExists){
+    throw new ClientError("Email já esta em uso!")
+  }
 }
 
 const middlewareError = (err, req, res, next) => {
@@ -37,6 +52,7 @@ const hashPassword = async (password) => {
 module.exports = {
   isEmailTaken,
   isEmailValid,
+  checkEmail,
   middlewareError,
   hashPassword
 }
