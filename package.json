@@ -1,7 +1,7 @@
 {
   "name": "movie-notes-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "API de anotações de filmes, Possibilitando o cadastro de usuários, notas. Desenvolvido para consolidar meu aprendizado em backend no explorer.",
   "main": "server.js",
   "scripts": {
     "dev": "npx nodemon src/server"
