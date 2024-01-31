@@ -1,4 +1,3 @@
-
 exports.up = knex => {
   return knex.schema.createTable('users', table => {
     table.increments("id");
@@ -10,6 +9,5 @@ exports.up = knex => {
     table.timestamp('updated_at').defaultTo(knex.fn.now())
   })
 }
-
 
 exports.down = knex => knex.schema.dropTable('users')
