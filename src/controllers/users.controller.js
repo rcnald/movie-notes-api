@@ -1,6 +1,6 @@
 const ClientError = require("../utils/ClientError")
 const knex = require("../database/knex")
-const { checkEmail, checkPassword, hashPassword } = require("../utils/utils")
+const { checkEmail, checkUser, checkPassword, hashPassword } = require("../utils/utils")
 
 class UsersController{
   async create(req, res){
@@ -19,11 +19,7 @@ class UsersController{
     const { name, email, password, old_password } = req.body
     const { id } = req.params
 
-    const [ user ] = await knex("users").select().where({id})
-
-    if(!user){
-      throw new ClientError("usuário não encontrado!")
-    }
+    await checkUser(id)
 
     const nameOrEmailChanged = (name !== user.name ) || (email !== user.email)
 
@@ -55,6 +51,16 @@ class UsersController{
     }).where({id})
 
     res.json({message: "Usuário atualizado com sucesso!"})
+  }
+
+  async delete(req, res){
+    const { id } = req.params
+
+    await checkUser(id)
+
+    await knex("users").where({id}).del()
+
+    res.json({message:"usuário deletado com sucesso!"})
   }
 }
 

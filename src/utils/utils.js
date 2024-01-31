@@ -46,6 +46,14 @@ const checkPassword = async (newPassword, oldPassword, user_id) => {
   }
 }
 
+const checkUser = async (id) => {
+  const [ user ] = await knex("users").select().where({id})
+
+  if(!user){
+    throw new ClientError("usuário não encontrado!")
+  }
+}
+
 const middlewareError = (err, req, res, next) => {
   if(err instanceof ClientError){
     return res.status(err.status).json({
@@ -74,6 +82,7 @@ module.exports = {
   isEmailValid,
   checkEmail,
   checkPassword,
+  checkUser,
   middlewareError,
   hashPassword
 }
