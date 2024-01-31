@@ -1,5 +1,6 @@
 const knex = require("../database/knex")
 const ClientError = require("./ClientError")
+const bcrypt = require('bcrypt');
 
 const isEmailTaken = async (email) => {
   const result = await knex('users').select().where({email})
@@ -21,7 +22,14 @@ const middlewareError = (err, req, res, next) => {
   })
 }
 
+const hashPassword = async (password) => {
+  const salt = 10
+  const hashedPassword = await bcrypt.hash(password, salt)
+  return hashedPassword
+}
+
 module.exports = {
   isEmailTaken,
-  middlewareError
+  middlewareError,
+  hashPassword
 }

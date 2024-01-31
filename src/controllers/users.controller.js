@@ -1,6 +1,6 @@
 const ClientError = require("../utils/ClientError")
 const knex = require("../database/knex")
-const { isEmailTaken } = require("../utils/utils")
+const { isEmailTaken, hashPassword } = require("../utils/utils")
 
 class UsersController{
   async create(req, res){
@@ -11,7 +11,9 @@ class UsersController{
       throw new ClientError("Email já esta em uso!")
     }
 
-    await knex('users').insert({email, name, password});
+    const hashedPassword = await hashPassword(password)
+
+    await knex('users').insert({email, name, password: hashedPassword});
 
     return res.status(201).json()
   }

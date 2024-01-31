@@ -1,5 +1,5 @@
 exports.up = knex => {
-  return knex.schema.createTable('movie_notes', table => {
+  return knex.schema.dropTableIfExists('movie_notes').createTable('movie_notes', table => {
     table.increments("id");
     table.string('title');
     table.string('description')
