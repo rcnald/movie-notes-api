@@ -34,12 +34,12 @@ Antes de começar, certifique-se de ter o [Node.js](https://nodejs.org/) instala
     ```
     npm run migrate
     ```
-4. Crie um arquivo .env.local na raiz do projeto como mostra no arquivo .env.example.
-    ```
-		PORT=
-    ```
+4. Crie um arquivo .env.local na raiz do projeto como mostra no arquivo .env.example. 
+	```
+	PORT=3333
+	```
 5. Iniciar a API
     ```
     npm run dev
     ```
-    Logo após isso o projeto será iniciado na porta que fora designado no .env.local.
+    Logo após isso o projeto será iniciado na porta que fora designado no .env.local ( como no exemplo acima : 3333).
