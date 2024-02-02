@@ -30,17 +30,17 @@ const checkEmail = async (email, user_id) => {
   }
 }
 
-const checkPassword = async (newPassword, oldPassword, user_id) => {
-  if(newPassword && !oldPassword){
+const checkPassword = async (newPassword, currentPassword, user_id) => {
+  if(newPassword && !currentPassword){
     throw new ClientError("Para trocar a senha, necessário informa senha atual!")
   }
 
-  if(newPassword && oldPassword){
+  if(newPassword && currentPassword){
     const [ user ] = await knex("users").select().where({id: user_id})
 
-    const isOldPasswordValid = await bcrypt.compare(oldPassword, user.password)
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password)
 
-    if(!isOldPasswordValid){
+    if(!isCurrentPasswordValid){
       throw new ClientError("Senha atual incorreta!")
     }
   }
@@ -52,6 +52,8 @@ const checkUser = async (id) => {
   if(!user){
     throw new ClientError("usuário não encontrado!")
   }
+
+  return user
 }
 
 const middlewareError = (err, req, res, next) => {

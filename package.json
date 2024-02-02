@@ -4,7 +4,8 @@
   "description": "API de anotações de filmes, Possibilitando o cadastro de usuários, notas. Desenvolvido para consolidar meu aprendizado em backend no explorer.",
   "main": "server.js",
   "scripts": {
-    "dev": "npx nodemon --env-file=.env.local src/server"
+    "dev": "nodemon --env-file=.env.local src/server",
+    "migrate": "knex migrate:latest"
   },
   "keywords": [],
   "author": "Ronaldo Junior <ronaldomjunior05@gmail.com>",

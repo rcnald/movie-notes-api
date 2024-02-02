@@ -16,12 +16,12 @@ class UsersController{
   }
 
   async update(req, res){
-    const { name, email, password, old_password } = req.body
+    const { name, email, password, current_password } = req.body
     const { id } = req.params
+    
+    const user = await checkUser(id)
 
-    await checkUser(id)
-
-    const nameOrEmailChanged = (name !== user.name ) || (email !== user.email)
+    const nameOrEmailChanged = ((name ?? user.name)  !== user.name ) || ((email ?? user.email) !== user.email)
 
     if(!nameOrEmailChanged && !password){
       return res.json({message:"não houveram mudanças!"})
@@ -31,9 +31,9 @@ class UsersController{
     user.email = email ?? user.email
     
     await checkEmail(user.email, id)
-    await checkPassword(password, old_password, id)
+    await checkPassword(password, current_password, id)
 
-    const passwordChanged = password !== old_password
+    const passwordChanged = password !== current_password
 
     if(!passwordChanged && password){
       throw new ClientError("você não pode redefinir sua nova senha, com sua senha atual!")
