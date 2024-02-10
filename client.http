@@ -1,0 +1,100 @@
+@baseUrl = http://localhost:3333
+@authToken = {{authenticate.response.body.token}}
+
+### @name create-user
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name":"John Doe",
+  "email":"johndoe@email.com",
+  "password":"123456"
+}
+
+###
+
+### @name authenticate
+POST {{baseUrl}}/session
+Content-Type: application/json
+
+{
+  "email":"johndoe@email.com",
+	"password":"123"
+}
+
+###
+
+### @name update-user
+PUT {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name":"John Doe",
+  "email":"johndoe@email.com",
+	"password":"123",
+  "current_password":"123"
+}
+
+###
+
+### @name update-user-avatar
+PATCH {{baseUrl}}/users/avatar
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer {{authToken}}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="< path/image.extension"
+Content-Type: image/jpeg
+
+< path/image.extension
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### @name delete-user
+PUT {{baseUrl}}/users
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name create-note
+POST {{baseUrl}}/notes
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+	"title":"note title",
+	"description":"note description",
+  "rating": 5,
+	"tags": ["tag1", "tag2"]
+}
+
+###
+
+### @name show-note
+GET {{baseUrl}}/notes/1
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name delete-note
+DELETE {{baseUrl}}/notes/1
+Authorization: Bearer {{authToken}}
+###
+
+### @name index-user-notes
+GET {{baseUrl}}/notes?title=note+ti&tags=tag1,tag2
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name index-user-tags
+GET {{baseUrl}}/tags
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name show-file
+GET {{baseUrl}}/files/filename.extension
+Authorization: Bearer {{authToken}}

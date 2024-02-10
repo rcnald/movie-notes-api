@@ -4,7 +4,7 @@ A API de anotações de filmes é um projeto desenvolvido no Explorer, com o obj
 
 ## Funcionalidades
 
-[Api reference](./API_REFERENCE.md)
+[Api reference](./client.http)
 
 ## Tecnologias
 
