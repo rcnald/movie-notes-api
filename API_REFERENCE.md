@@ -26,6 +26,8 @@
 **Route param**
 - `id` refer to the user's id, that will be modify.
 
+**Authorization** : Bearer : {{USER_TOKEN}}
+
 **Payload**
 ```json
 {
