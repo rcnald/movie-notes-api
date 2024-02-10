@@ -3,11 +3,11 @@ const ClientError = require("./ClientError")
 const bcrypt = require('bcrypt');
 
 const isEmailTaken = async (email, user_id) => {
-  const [ result ] = await knex('users').select('id').where({email})
+  const [ user ] = await knex('users').select('id').where({email})
 
-  const isUserEmail =  result?.id === user_id
+  const isUserEmail =  user?.id === user_id
 
-  return !isUserEmail && result?.id
+  return !isUserEmail && user
 }
 
 const isEmailValid = (email) => {
@@ -56,20 +56,6 @@ const checkUser = async (id) => {
   return user
 }
 
-const middlewareError = (err, req, res, next) => {
-  if(err instanceof ClientError){
-    return res.status(err.status).json({
-      status:"error",
-      message: err.message
-    })
-  }
-
-  return res.status(500).json({
-    status:"error",
-    message: `internal error: ${err.message}`
-  })
-}
-
 const hashPassword = async (password) => {
   const salt = 10
   let hashedPassword = null
@@ -80,11 +66,8 @@ const hashPassword = async (password) => {
 }
 
 module.exports = {
-  isEmailTaken,
-  isEmailValid,
   checkEmail,
   checkPassword,
   checkUser,
-  middlewareError,
   hashPassword
 }

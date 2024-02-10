@@ -5,7 +5,7 @@ const { checkUser } = require("../utils/utils")
 class MovieNotesController{
   async create(req, res){
     const { title, description, rating, tags } = req.body
-    const { user_id } = req.params
+    const { id:user_id } = req.user
 
     await checkUser(user_id)
 
@@ -59,8 +59,9 @@ class MovieNotesController{
   }
 
   async index(req, res){
-    const { title, user_id, tags } = req.query
-
+    const { title, tags } = req.query
+    const { id:user_id } = req.user
+    
     let notes
 
     if(tags){
@@ -76,7 +77,7 @@ class MovieNotesController{
       ])
       .where("movie_notes.user_id", user_id)
         .whereLike("movie_notes.title", `%${title}%`)
-        .whereIn("name",tagsInArray)
+        .whereIn("movie_tags.name",tagsInArray)
         .innerJoin("movie_notes", "movie_notes.id", "movie_tags.note_id")
         .orderBy("movie_notes.title")
     } else{

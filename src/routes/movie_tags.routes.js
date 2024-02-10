@@ -3,6 +3,6 @@ const movieTagsRouter = Router()
 const MovieTagsController = require("../controllers/movie_tags.controller")
 const movieTagsController = new MovieTagsController()
 
-movieTagsRouter.get("/:user_id", movieTagsController.index)
+movieTagsRouter.get("/", movieTagsController.index)
 
 module.exports = movieTagsRouter

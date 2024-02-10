@@ -17,7 +17,7 @@ class UsersController{
 
   async update(req, res){
     const { name, email, password, current_password } = req.body
-    const { id } = req.params
+    const { id } = req.user
     
     const user = await checkUser(id)
 
@@ -54,7 +54,7 @@ class UsersController{
   }
 
   async delete(req, res){
-    const { id } = req.params
+    const { id } = req.user
 
     await checkUser(id)
 

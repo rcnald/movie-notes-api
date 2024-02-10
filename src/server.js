@@ -1,14 +1,15 @@
 require("express-async-errors")
 const express = require("express")
 const routes = require("./routes")
-const { middlewareError } = require("./utils/utils")
+const { errorMiddleware, authMiddleware } = require("./middlewares")
 
 const app = express()
 
 app.use(express.json())
+app.use(authMiddleware)
 app.use(routes)
-app.use(middlewareError)
+app.use(errorMiddleware)
 
 app.listen(process.env.PORT, () => {
-  return console.log(`✅ listen to port: ${process.env.PORT}`)
+  return console.log(`✅ HTTP server listen to port: ${process.env.PORT}`)
 })
