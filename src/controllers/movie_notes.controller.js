@@ -59,9 +59,9 @@ class MovieNotesController{
   }
 
   async index(req, res){
-    const { title, tags } = req.query
+    const { title = "", tags = "" } = req.query
     const { id:user_id } = req.user
-    
+
     let notes
 
     if(tags){

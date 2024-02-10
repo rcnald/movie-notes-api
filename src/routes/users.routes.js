@@ -6,10 +6,14 @@ const usersController = new UsersController()
 const usersAvatarController = new UsersAvatarController()
 const multer = require("multer")
 const uploadConfigs = require("../configs/upload")
+const { authMiddleware } = require("../middlewares")
 
 const upload = multer(uploadConfigs.MULTER)
 
 usersRouter.post("/", usersController.create)
+
+usersRouter.use(authMiddleware)
+
 usersRouter.put("/", usersController.update)
 usersRouter.delete("/", usersController.delete)
 usersRouter.patch("/avatar", upload.single("avatar"), usersAvatarController.update)
