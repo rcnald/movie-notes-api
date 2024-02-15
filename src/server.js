@@ -1,4 +1,5 @@
 require("express-async-errors")
+require("dotenv/config")
 const uploadConfig = require("./configs/upload")
 const { errorMiddleware } = require("./middlewares")
 
